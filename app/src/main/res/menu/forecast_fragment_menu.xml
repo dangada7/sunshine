@@ -7,9 +7,15 @@
         android:title="@string/action_settings"
         android:orderInCategory="100"
         app:showAsAction="never" />
-
     <item
         android:id="@+id/action_refresh"
         android:title="@string/refresh"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_viewMaps"
+        android:title="@string/action_viewMaps"
+        app:showAsAction="never" />
+
+
 </menu>

@@ -1,7 +1,10 @@
 package danga.sunshine.async_task;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.text.format.Time;
 import android.util.Log;
 import android.widget.ArrayAdapter;
@@ -18,15 +21,19 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 
+import danga.sunshine.R;
+
 /**
  * Created by dan on 9/23/2015.
  */
 public class FetchWeatherTask extends AsyncTask <String, Void, String[]> {
 
     ArrayAdapter<String> arrayAdapter;
+    Context context;
 
-    public FetchWeatherTask(ArrayAdapter<String> arrayAdapter){
+    public FetchWeatherTask(ArrayAdapter<String> arrayAdapter, Context context){
         this.arrayAdapter = arrayAdapter;
+        this.context = context;
     }
 
     @Override
@@ -162,6 +169,15 @@ public class FetchWeatherTask extends AsyncTask <String, Void, String[]> {
      */
     private String formatHighLows(double high, double low) {
         // For presentation, assume the user doesn't care about tenths of a degree.
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String units = sharedPreferences.getString(context.getString(R.string.pref_units_key), context.getString(R.string.pref_units_default));
+
+        if (units.equals(context.getString(R.string.pref_units_imperial))){
+            high = (high * 1.8) + 32;
+            low =  (low  * 1.8) + 32;
+        }
+
         long roundedHigh = Math.round(high);
         long roundedLow = Math.round(low);
 

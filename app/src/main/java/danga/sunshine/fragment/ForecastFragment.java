@@ -1,8 +1,12 @@
 package danga.sunshine.fragment;
 
 import android.content.Intent;
-import android.support.v4.app.Fragment;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,9 +21,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import danga.sunshine.DetailsActivity;
-import danga.sunshine.async_task.FetchWeatherTask;
 import danga.sunshine.R;
 import danga.sunshine.SettingsActivity;
+import danga.sunshine.async_task.FetchWeatherTask;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -28,6 +32,12 @@ public class ForecastFragment extends Fragment implements AdapterView.OnItemClic
 
     private ArrayAdapter<String> arrayAdapter;
 
+    //-----------------------------------------------------------------------------------
+    @Override
+    public void onStart() {
+        super.onStart();
+        updateWhether();
+    }
     //-----------------------------------------------------------------------------------
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,12 +58,14 @@ public class ForecastFragment extends Fragment implements AdapterView.OnItemClic
         int id = item.getItemId();
         switch (id) {
             case R.id.action_refresh:
-                FetchWeatherTask fetchWeatherTask = new FetchWeatherTask(arrayAdapter);
-                fetchWeatherTask.execute("94043");
+                updateWhether();
                 return true;
             case R.id.action_settings:
                 Intent intent = new Intent(getActivity(),SettingsActivity.class);
                 startActivity(intent);
+                return true;
+            case R.id.action_viewMaps:
+                showMap();
                 return true;
             default:
 
@@ -88,7 +100,42 @@ public class ForecastFragment extends Fragment implements AdapterView.OnItemClic
         String weatherInfo =  arrayAdapter.getItem(position);
 
         Intent intent = new Intent(getActivity(),DetailsActivity.class);
-        intent.putExtra(Intent.EXTRA_TEXT,weatherInfo);
+        intent.putExtra(Intent.EXTRA_TEXT, weatherInfo);
         startActivity(intent);
+    }
+
+    //-----------------------------------------------------------------------------------
+    private String getPostcode() {
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String postcode = sharedPreferences.getString(getString(R.string.pref_location_key),getString(R.string.pref_location_default));
+        return postcode;
+    }
+    //-----------------------------------------------------------------------------------
+    private void updateWhether() {
+        FetchWeatherTask fetchWeatherTask = new FetchWeatherTask(arrayAdapter,getActivity());
+        String postcode = getPostcode();
+        Log.i("send postcode", "postcode = " + postcode);
+        fetchWeatherTask.execute(postcode);
+    }
+
+    //-----------------------------------------------------------------------------------
+    public void showMap() {
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String location = sharedPreferences.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
+
+        Uri uri = Uri.parse("geo:0,0?").
+                buildUpon().appendQueryParameter("q",location).
+                build();
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(uri);
+        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivity(intent);
+        }else{
+            Toast.makeText(getActivity(),"sorry your phone dont have a app that can open maps",Toast.LENGTH_SHORT).show();
+
+        }
     }
 }
