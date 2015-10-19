@@ -20,9 +20,9 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import danga.sunshine.DetailsActivity;
+import danga.sunshine.activity.DetailsActivity;
 import danga.sunshine.R;
-import danga.sunshine.SettingsActivity;
+import danga.sunshine.activity.SettingsActivity;
 import danga.sunshine.async_task.FetchWeatherTask;
 
 /**
@@ -82,9 +82,9 @@ public class ForecastFragment extends Fragment implements AdapterView.OnItemClic
 
         arrayAdapter = new ArrayAdapter<String>(
                 getActivity(),
-                R.layout.list_item_forecast,
-                R.id.list_item_forecast_textView,
-                new ArrayList<String>());
+                android.R.layout.simple_list_item_1,
+                android.R.id.text1,
+                new ArrayList());
 
         ListView listView = (ListView) rootView.findViewById(R.id.listView_forecast);
         listView.setAdapter(arrayAdapter);
@@ -113,7 +113,7 @@ public class ForecastFragment extends Fragment implements AdapterView.OnItemClic
     }
     //-----------------------------------------------------------------------------------
     private void updateWhether() {
-        FetchWeatherTask fetchWeatherTask = new FetchWeatherTask(arrayAdapter,getActivity());
+        FetchWeatherTask fetchWeatherTask = new FetchWeatherTask(getActivity(),arrayAdapter);
         String postcode = getPostcode();
         Log.i("send postcode", "postcode = " + postcode);
         fetchWeatherTask.execute(postcode);

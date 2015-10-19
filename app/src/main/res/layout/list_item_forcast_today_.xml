@@ -1,45 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="wrap_content"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="horizontal"
     android:minHeight="?android:attr/listPreferredItemHeight"
-    android:padding="16dp"
     >
 
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:id="@+id/list_item_icon"
-        android:layout_weight="1"
-        android:src="@mipmap/ic_launcher"
-        />
-
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:layout_weight="1"
         android:orientation="vertical"
-        android:layout_weight="2"
         >
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:id="@+id/list_item_date_textview"
-            android:layout_weight="1"
+            android:id="@+id/list_item_today_date"
             android:text="date"
-            android:gravity="center_vertical"
+            android:layout_weight="1"
             />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:id="@+id/list_item_forecast_textview"
+            android:id="@+id/list_item_today_temp_high"
+            android:text="high temp"
             android:layout_weight="1"
-            android:text="forecast"
-            android:gravity="center_vertical"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/list_item_today_temp_low"
+            android:text="low temp"
+            android:layout_weight="1"
             />
 
     </LinearLayout>
@@ -47,35 +42,27 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:layout_weight="1"
+        android:orientation="vertical"
         >
-        <TextView
+
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:id="@+id/list_item_high_textview"
+            android:src="@mipmap/ic_launcher"
+            android:id="@+id/list_item_today_image"
             android:layout_weight="1"
-            android:text="temp high"
-            android:gravity="center_vertical"
             />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-             android:id="@+id/list_item_low_textview"
+            android:id="@+id/list_item_today_forecast_textview"
+            android:text="forecast textview"
             android:layout_weight="1"
-            android:text="temp low"
-            android:gravity="center_vertical"
             />
 
     </LinearLayout>
+
 
 </LinearLayout>
-
-
-
-
-
-
-
-

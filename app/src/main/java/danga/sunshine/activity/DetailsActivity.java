@@ -1,4 +1,4 @@
-package danga.sunshine;
+package danga.sunshine.activity;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
@@ -12,6 +12,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import android.widget.TextView;
+
+import danga.sunshine.R;
 
 public class DetailsActivity extends AppCompatActivity {
 

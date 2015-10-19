@@ -1,4 +1,4 @@
-package danga.sunshine;
+package danga.sunshine.activity;
 
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import danga.sunshine.R;
 
 
 /**
